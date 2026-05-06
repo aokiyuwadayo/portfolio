@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AOKI YUWA | Portfolio</title>
+  <meta name="description" content="長崎県対馬市出身、福岡工業大学在学中。Web制作・AI活用・起業に挑戦する大学生のポートフォリオ。" />
+  <!-- OGP -->
+  <meta property="og:title" content="AOKI YUWA | Portfolio" />
+  <meta property="og:description" content="対馬から福岡へ。Web制作・AI・起業に挑戦する大学生のポートフォリオ。" />
+  <meta property="og:image" content="https://aokiyuwadayo.github.io/portfolio/assets/profile.jpg" />
+  <meta property="og:url" content="https://aokiyuwadayo.github.io/portfolio/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AOKI YUWA | Portfolio" />
+  <meta name="twitter:description" content="対馬から福岡へ。Web制作・AI・起業に挑戦する大学生のポートフォリオ。" />
+  <meta name="twitter:image" content="https://aokiyuwadayo.github.io/portfolio/assets/profile.jpg" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&family=Noto+Serif+JP:wght@200;300&family=Space+Mono:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet" />
+</head>
+  <!-- イントロ画面 -->
+  <div id="intro" aria-hidden="true">
+    <div class="intro-lines">
+      <div class="intro-line-h"></div>
+      <div class="intro-line-h"></div>
+    </div>
+    <div class="intro-inner">
+      <p class="intro-name-ja"><span class="intro-cap">A</span>oki<span class="intro-cap">Y</span>uwa</p>
+      <p class="intro-name-en">青木 優和</p>
+    </div>
+    <div class="intro-progress-wrap">
+      <div class="intro-bar"></div>
+    </div>
+  </div>
+
+  <!-- カスタムカーソル -->
+  <div class="cursor"></div>
+  <div class="cursor-dot"></div>
+
+  <!-- Three.js canvas (背景) -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- 地名ラベル（スクロールで表示） -->
+  <div id="loc-tsushima" class="journey-label">
+    <span class="loc-ja">対馬</span>
+    <span class="loc-en">Tsushima, Nagasaki</span>
+  </div>
+  <div id="loc-fukuoka" class="journey-label">
+    <span class="loc-ja">福岡</span>
+    <span class="loc-en">Fukuoka City</span>
+  </div>
+
+  <!-- ナビゲーション -->
+  <nav id="nav">
+    <div class="nav-logo">AY</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#works">Works</a></li>
+      <li><a href="#dream">Dream</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button id="lang-btn" class="lang-btn" aria-label="Switch language">EN</button>
+  </nav>
+
+  <!-- スクロール進捗バー -->
+  <div id="progress-bar"></div>
+
+  <!-- メインコンテンツ -->
+  <main>
+
+    <!-- Section 1: Tsushima (出発点) -->
+    <section id="hero" class="section">
+      <div class="section-inner">
+        <div class="location-label">
+          <span class="dot-label"></span>Nagasaki, Tsushima
+        </div>
+        <h1 class="hero-title">
+          <span class="title-line">AOKI</span>
+          <span class="title-line">YUWA</span>
+        </h1>
+        <p class="hero-sub">青木 優和</p>
+        <p class="hero-desc">対馬から、可能性を広げるために。</p>
+        <div class="scroll-hint">
+          <span>Scroll to explore</span>
+          <div class="scroll-line"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Journey (移動) -->
+    <section id="journey" class="section">
+      <div class="section-inner">
+        <div class="journey-map">
+          <div class="map-point active">
+            <span class="map-dot"></span>
+            <span class="map-label">対馬 Tsushima</span>
+          </div>
+          <div class="map-line"></div>
+          <div class="map-point">
+            <span class="map-dot"></span>
+            <span class="map-label">福岡 Fukuoka</span>
+          </div>
+        </div>
+        <p class="journey-text">大学進学をきっかけに、対馬から福岡へ。<br>環境が変わった先に、新しい自分がいた。</p>
+      </div>
+    </section>
+
+    <!-- Section 3: About -->
+    <section id="about" class="section">
+      <div class="section-inner">
+        <div class="location-label">
+          <span class="dot-label"></span>Fukuoka, Now
+        </div>
+        <h2 class="section-title">About</h2>
+        <div class="about-grid">
+          <div class="about-text">
+            <p>
+              <span class="ja-only">長崎県対馬市出身、現在は<strong>福岡工業大学</strong>在学中。大学進学をきっかけに「自分の可能性はいくらでも広げられる」ということに気づき、さまざまなことに積極的に挑戦しています。</span>
+              <span class="en-only">Born in Tsushima, Nagasaki. Currently studying at <strong>Fukuoka Institute of Technology</strong>. Since starting university, I realized my potential is limitless and actively take on new challenges.</span>
+            </p>
+            <p>
+              <span class="ja-only">現在はプログラミングスクールで<strong>Web制作</strong>を学びながら、インターンで<strong>Claude</strong>などのAIを活用した業務自動化・システム開発にも取り組んでいます。</span>
+              <span class="en-only">Currently learning <strong>web development</strong> at a coding school while building AI-powered automation and systems using tools like <strong>Claude</strong> at an internship.</span>
+            </p>
+            <p>
+              <span class="ja-only">大学では<strong>サークルの部長</strong>として、メンバーの意見調整や活動運営を担当。現在はハッカソンに向けてチームで開発に挑戦中です。</span>
+              <span class="en-only">At university, I serve as <strong>club president</strong>, coordinating members and managing activities. Currently building a hackathon project with my team.</span>
+            </p>
+            <p>
+              <span class="ja-only">インダストリアルエンジニアリング・経営工学の学習を通じて、「より良い仕組みを考えながら開発する視点」を大切にしています。好奇心を原動力に、全力で取り組む姿勢がモットーです。</span>
+              <span class="en-only">Through studying <strong>Industrial Engineering</strong>, I value building systems with thoughtful design. Driven by curiosity, giving full effort is my motto.</span>
+            </p>
+          </div>
+          <div class="about-meta">
+            <div class="about-photo-wrap">
+              <img src="assets/profile.jpg" alt="AOKI YUWA" class="about-photo" />
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Name</span>
+              <span class="meta-value">青木 優和 / AOKI YUWA</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">University</span>
+              <span class="meta-value ja-only">福岡工業大学</span>
+              <span class="meta-value en-only">Fukuoka Inst. of Technology</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">From</span>
+              <span class="meta-value ja-only">長崎県対馬市</span>
+              <span class="meta-value en-only">Tsushima, Nagasaki</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Role</span>
+              <span class="meta-value ja-only">大学生 / インターン / サークル部長</span>
+              <span class="meta-value en-only">Student / Intern / Club President</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Skills -->
+    <section id="skills" class="section">
+      <div class="section-inner">
+        <h2 class="section-title">Skills</h2>
+        <div class="skills-grid">
+          <div class="skill-card" data-level="70">
+            <div class="skill-icon">{ }</div>
+            <div class="skill-name">HTML / CSS</div>
+            <div class="skill-bar"><div class="skill-fill" data-width="70"></div></div>
+          </div>
+          <div class="skill-card" data-level="55">
+            <div class="skill-icon">JS</div>
+            <div class="skill-name">JavaScript</div>
+            <div class="skill-bar"><div class="skill-fill" data-width="55"></div></div>
+          </div>
+          <div class="skill-card" data-level="50">
+            <div class="skill-icon">Py</div>
+            <div class="skill-name">Python</div>
+            <div class="skill-bar"><div class="skill-fill" data-width="50"></div></div>
+          </div>
+          <div class="skill-card" data-level="40">
+            <div class="skill-icon">Re</div>
+            <div class="skill-name">React</div>
+            <div class="skill-bar"><div class="skill-fill" data-width="40"></div></div>
+          </div>
+          <div class="skill-card" data-level="65">
+            <div class="skill-icon">AI</div>
+            <div class="skill-name">Claude / AI活用</div>
+            <div class="skill-bar"><div class="skill-fill" data-width="65"></div></div>
+          </div>
+          <div class="skill-card" data-level="60">
+            <div class="skill-icon">Git</div>
+            <div class="skill-name">GitHub</div>
+            <div class="skill-bar"><div class="skill-fill" data-width="60"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Works -->
+    <section id="works" class="section">
+      <div class="section-inner">
+        <h2 class="section-title">Works</h2>
+
+        <!-- カテゴリカード横スクロール -->
+        <div class="works-cat-scroll" id="works-cat-scroll">
+
+          <button class="cat-tab-card active" data-target="wp-homepage">
+            <div class="cat-thumb" style="background:linear-gradient(145deg,#060e28,#0e2560,#1a4a90);">
+              <span class="cat-thumb-label">PORTFOLIO</span>
+            </div>
+            <div class="cat-tab-info">
+              <span class="cat-tab-name">ホームページ</span>
+              <span class="cat-tab-count">1 件</span>
+            </div>
+          </button>
+
+          <button class="cat-tab-card" data-target="wp-flyer">
+            <div class="cat-thumb cat-thumb-pdf">
+              <iframe id="flyer-tab-preview" class="cat-thumb-iframe"
+                      src="assets/works/flyer-startup-club.pdf#toolbar=0&navpanes=0&scrollbar=0"
+                      loading="lazy"></iframe>
+            </div>
+            <div class="cat-tab-info">
+              <span class="cat-tab-name">チラシ</span>
+              <span class="cat-tab-count">2 件</span>
+            </div>
+          </button>
+
+          <button class="cat-tab-card" data-target="wp-event">
+            <div class="cat-thumb">
+              <img src="assets/works/breakthrough/thumb.png" alt="イベント" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            <div class="cat-tab-info">
+              <span class="cat-tab-name">イベント</span>
+              <span class="cat-tab-count">1 件</span>
+            </div>
+          </button>
+
+          <button class="cat-tab-card" data-target="wp-circle">
+            <div class="cat-thumb" style="background:linear-gradient(145deg,#0a1a3a,#182e60,#2a4888);">
+              <span class="cat-thumb-label">起業部</span>
+            </div>
+            <div class="cat-tab-info">
+              <span class="cat-tab-name">サークル</span>
+              <span class="cat-tab-count">1 件</span>
+            </div>
+          </button>
+
+        </div>
+
+        <!-- 作品パネル -->
+        <div class="works-panel active" id="wp-homepage">
+          <div class="cat-works-grid">
+            <div class="work-card">
+              <div class="work-img work-img-placeholder" style="background:linear-gradient(135deg,#060e28,#0e2560,#1a4a90);">
+                <span class="placeholder-label">PORTFOLIO</span>
+              </div>
+              <div class="work-info">
+                <h3 class="work-title">AokiYuwa Portfolio</h3>
+                <p class="work-desc"><span class="ja-only">対馬から福岡への旅をテーマにした、Three.jsインタラクティブポートフォリオサイト。</span><span class="en-only">An interactive portfolio themed on the journey from Tsushima to Fukuoka, built with Three.js.</span></p>
+                <details class="work-process">
+                  <summary><span class="ja-only">制作プロセス</span><span class="en-only">Process</span></summary>
+                  <p><span class="ja-only">就活・インターン応募で自分を伝えるツールとして制作。Three.js・GSAPアニメーション・スクロール連動UIを一から学びながら実装。対馬から福岡というストーリーで自分のバックグラウンドを可視化することを目指した。</span><span class="en-only">Built to express myself during job hunting and internship applications. Learned Three.js, GSAP, and scroll-driven UI from scratch. Aimed to visually tell my background through the Tsushima-to-Fukuoka narrative.</span></p>
+                </details>
+                <div class="work-tags">
+                  <span class="tag">HTML / CSS</span><span class="tag">JavaScript</span><span class="tag">Three.js</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="works-panel" id="wp-flyer">
+          <div class="cat-works-grid">
+            <div class="work-card">
+              <div class="work-img pdf-thumb">
+                <iframe src="assets/works/flyer-startup-club.pdf#toolbar=0&navpanes=0&scrollbar=0"
+                        class="pdf-frame" title="福工大起業部チラシ" loading="lazy"></iframe>
+              </div>
+              <div class="work-info">
+                <h3 class="work-title">福工大起業部 チラシ</h3>
+                <p class="work-desc"><span class="ja-only">起業部のメンバー募集チラシ。活動内容やビジョンをビジュアルに落とし込んだ制作物。</span><span class="en-only">A recruitment flyer for the entrepreneurship club, translating its vision and activities into visuals.</span></p>
+                <details class="work-process">
+                  <summary><span class="ja-only">制作プロセス</span><span class="en-only">Process</span></summary>
+                  <p><span class="ja-only">部員からヒアリングし、「どんな人に来てほしいか」をターゲット像として整理。情報の優先度付けとレイアウト設計を中心に、デザインの基礎を実践で学んだ。</span><span class="en-only">Interviewed club members to define the target audience. Learned layout design and visual hierarchy through hands-on practice.</span></p>
+                </details>
+                <div class="work-tags">
+                  <span class="tag">デザイン</span><span class="tag">チラシ</span><span class="tag">起業部</span>
+                </div>
+              </div>
+            </div>
+            <div class="work-card">
+              <div class="work-img pdf-thumb">
+                <iframe src="assets/works/flyer-sw-vol3.pdf#toolbar=0&navpanes=0&scrollbar=0"
+                        class="pdf-frame" title="Startup Weekend チラシ" loading="lazy"></iframe>
+              </div>
+              <div class="work-info">
+                <h3 class="work-title">Startup Weekend 新宮町 vol.3</h3>
+                <p class="work-desc"><span class="ja-only">新宮町で開催されたStartup Weekendのプロモーションチラシ。イベントの熱量を伝えるビジュアルを制作。</span><span class="en-only">Promotional flyer for Startup Weekend Shingu-cho vol.3, designed to convey the energy of the event.</span></p>
+                <details class="work-process">
+                  <summary><span class="ja-only">制作プロセス</span><span class="en-only">Process</span></summary>
+                  <p><span class="ja-only">初めて外部イベントのチラシを担当。短い期間でのデザインスプリントを経験し、「伝えたい一言」を軸にビジュアルを組み立てる方法を学んだ。</span><span class="en-only">First time designing for an external event. Went through a design sprint, learning to build visuals around a single core message.</span></p>
+                </details>
+                <div class="work-tags">
+                  <span class="tag">デザイン</span><span class="tag">チラシ</span><span class="tag">StartupWeekend</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="works-panel" id="wp-event">
+          <div class="cat-works-grid">
+            <div class="work-card bt-card" id="bt-card">
+              <div class="work-img bt-thumb" style="aspect-ratio:16/9;position:relative;padding:0;background:#000;">
+                <img src="assets/works/breakthrough/thumb.png" alt="BreakThrough" class="bt-cover" />
+                <video class="bt-preview" src="assets/works/breakthrough/video1.mp4" muted loop playsinline></video>
+                <div class="bt-overlay">
+                  <span class="bt-play-icon">▶</span>
+                  <span class="bt-play-label">動画ギャラリーを開く</span>
+                </div>
+              </div>
+              <div class="work-info">
+                <h3 class="work-title">BreakThrough</h3>
+                <p class="work-desc"><span class="ja-only">九州の大学生をターゲットにしたイベント。イベントの様子をまとめた映像・素材を制作。</span><span class="en-only">Event targeting university students in Kyushu. Produced video and photo materials documenting the event.</span></p>
+                <details class="work-process">
+                  <summary><span class="ja-only">制作プロセス</span><span class="en-only">Process</span></summary>
+                  <p><span class="ja-only">当日の撮影から編集まで担当。インタビュー映像の構成・カット割り・BGM選定を通じて、映像制作の基本的なワークフローを習得した。</span><span class="en-only">Handled shooting and editing on the day. Learned the fundamentals of video production through interview composition, cutting, and music selection.</span></p>
+                </details>
+                <div class="work-tags">
+                  <span class="tag">動画制作</span><span class="tag">イベント</span><span class="tag">九州</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="works-panel" id="wp-circle">
+          <div class="cat-works-grid">
+            <div class="work-card">
+              <div class="work-img work-img-placeholder" style="background:linear-gradient(135deg,#0a1a3a,#182e60,#2a4888);">
+                <span class="placeholder-label">起業部</span>
+              </div>
+              <div class="work-info">
+                <h3 class="work-title">福工大 起業部</h3>
+                <p class="work-desc"><span class="ja-only">福岡工業大学の起業部で活動中。メンバー募集・イベント企画・チラシ制作・ピッチ練習など幅広く担当。</span><span class="en-only">Active in FIT's entrepreneurship club. Responsibilities include recruitment, event planning, flyer design, and pitch practice.</span></p>
+                <details class="work-process">
+                  <summary><span class="ja-only">活動内容</span><span class="en-only">Activities</span></summary>
+                  <p><span class="ja-only">部長として、メンバーの個性を活かした役割分担や、外部イベントへの参加促進を担当。ビジネスアイデアを形にするプロセスを仲間と実践中。</span><span class="en-only">As president, I manage role distribution based on each member's strengths and drive participation in external events. Practicing the process of turning business ideas into reality with the team.</span></p>
+                </details>
+                <div class="work-tags">
+                  <span class="tag">サークル活動</span><span class="tag">起業</span><span class="tag">FIT</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- BreakThrough 動画モーダル -->
+    <div id="bt-modal" class="bt-modal" role="dialog" aria-modal="true">
+      <div class="bt-modal-inner">
+        <button class="bt-modal-close" id="bt-modal-close" aria-label="閉じる">✕</button>
+        <h3 class="bt-modal-title">BreakThrough — Gallery</h3>
+        <div class="bt-video-grid">
+          <video controls playsinline src="assets/works/breakthrough/video1.mp4"></video>
+          <video controls playsinline src="assets/works/breakthrough/video2.mp4"></video>
+          <video controls playsinline src="assets/works/breakthrough/video3.mp4"></video>
+          <video controls playsinline src="assets/works/breakthrough/video4.mp4"></video>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 6: Dream -->
+    <section id="dream" class="section">
+      <div class="section-inner">
+        <h2 class="section-title">Dream</h2>
+        <div class="dream-content">
+          <div class="dream-icon">
+            <svg viewBox="0 0 100 100" width="80" height="80">
+              <!-- 本のアイコン -->
+              <rect x="10" y="20" width="35" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+              <rect x="55" y="20" width="35" height="60" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+              <line x1="10" y1="50" x2="45" y2="50" stroke="currentColor" stroke-width="2"/>
+              <line x1="55" y1="50" x2="90" y2="50" stroke="currentColor" stroke-width="2"/>
+              <!-- コーヒーカップ -->
+              <circle cx="50" cy="88" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3 class="dream-title">まなびより</h3>
+          <p class="dream-text">
+            本に囲まれながら、エンジニアが集まり、コーヒーを片手にアイデアを交わす場所。<br>
+            知識・技術・人がつながる新しいコミュニティ空間を、いつか自分の手で作りたい。
+          </p>
+          <p class="dream-text">
+            図書館の静けさとカフェの温かさ、そしてエンジニアの熱量が共存する場所。<br>
+            対馬で育んだ「地域と人のつながり」を、テクノロジーで新しい形にしていく。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 7: Contact -->
+    <section id="contact" class="section">
+      <div class="section-inner">
+        <h2 class="section-title">Contact</h2>
+        <p class="contact-sub"><span class="ja-only">お気軽にご連絡ください。</span><span class="en-only">Feel free to reach out.</span></p>
+
+        <!-- お問い合わせフォーム -->
+        <!-- Formspree利用: https://formspree.io で登録後 action の YOUR_ID を置き換えてください -->
+        <form class="contact-form" action="https://formspree.io/f/YOUR_ID" method="POST" id="contact-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cf-name"><span class="ja-only">お名前</span><span class="en-only">Name</span></label>
+              <input type="text" id="cf-name" name="name" required placeholder="山田 太郎 / Yamada Taro" />
+            </div>
+            <div class="form-group">
+              <label for="cf-email"><span class="ja-only">メールアドレス</span><span class="en-only">Email</span></label>
+              <input type="email" id="cf-email" name="email" required placeholder="example@email.com" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cf-msg"><span class="ja-only">メッセージ</span><span class="en-only">Message</span></label>
+            <textarea id="cf-msg" name="message" rows="4" required placeholder="お問い合わせ内容 / Your message here"></textarea>
+          </div>
+          <button type="submit" class="form-submit">
+            <span class="ja-only">送信する</span><span class="en-only">Send</span>
+          </button>
+        </form>
+
+        <div class="contact-links">
+          <a href="https://github.com/aokiyuwadayo" class="contact-card" target="_blank" rel="noopener">
+            <span class="contact-icon">GH</span>
+            <span class="contact-label">GitHub</span>
+            <span class="contact-handle">@aokiyuwadayo</span>
+          </a>
+          <a href="https://www.instagram.com/ayuwa0605" class="contact-card" target="_blank" rel="noopener">
+            <span class="contact-icon">IN</span>
+            <span class="contact-label">Instagram</span>
+            <span class="contact-handle">@ayuwa0605</span>
+          </a>
+          <a href="https://www.linkedin.com/jobs/" class="contact-card" target="_blank" rel="noopener">
+            <span class="contact-icon">Li</span>
+            <span class="contact-label">LinkedIn</span>
+            <span class="contact-handle">Profile</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    /* Works カテゴリタブ切り替え */
+    (function() {
+      // チラシのプレビューをランダム選択
+      const flyerPreviews = [
+        'assets/works/flyer-startup-club.pdf#toolbar=0&navpanes=0&scrollbar=0',
+        'assets/works/flyer-sw-vol3.pdf#toolbar=0&navpanes=0&scrollbar=0'
+      ];
+      const flyerIframe = document.getElementById('flyer-tab-preview');
+      if (flyerIframe) flyerIframe.src = flyerPreviews[Math.floor(Math.random() * flyerPreviews.length)];
+
+      document.querySelectorAll('.cat-tab-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const target = card.dataset.target;
+          document.querySelectorAll('.cat-tab-card').forEach(c => c.classList.remove('active'));
+          document.querySelectorAll('.works-panel').forEach(p => p.classList.remove('active'));
+          card.classList.add('active');
+          document.getElementById(target).classList.add('active');
+        });
+      });
+    })();
+
+    /* cat-works-grid 横ドラッグスクロール */
+    (function() {
+      function attachDrag(grid) {
+        let down = false, startX, scrollLeft;
+        grid.addEventListener('mousedown', e => {
+          down = true; startX = e.pageX - grid.offsetLeft; scrollLeft = grid.scrollLeft;
+        });
+        grid.addEventListener('mouseleave', () => { down = false; });
+        grid.addEventListener('mouseup',    () => { down = false; });
+        grid.addEventListener('mousemove',  e => {
+          if (!down) return; e.preventDefault();
+          grid.scrollLeft = scrollLeft - (e.pageX - grid.offsetLeft - startX);
+        });
+      }
+      document.querySelectorAll('.cat-works-grid, .works-cat-scroll').forEach(attachDrag);
+    })();
+
+    /* BreakThrough モーダル & ホバー動画 */
+    (function() {
+      const card    = document.getElementById('bt-card');
+      const modal   = document.getElementById('bt-modal');
+      const closeBtn = document.getElementById('bt-modal-close');
+      const preview = card ? card.querySelector('.bt-preview') : null;
+
+      if (!card || !modal) return;
+
+      // ホバーで動画プレビュー再生
+      card.addEventListener('mouseenter', () => { if (preview) preview.play(); });
+      card.addEventListener('mouseleave', () => {
+        if (preview) { preview.pause(); preview.currentTime = 0; }
+      });
+
+      // クリックでモーダルを開く
+      card.addEventListener('click', () => {
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+
+      // モーダルを閉じる
+      function closeModal() {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+        modal.querySelectorAll('video').forEach(v => { v.pause(); v.currentTime = 0; });
+      }
+
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+    })();
+
+    /* 言語切替 (JA / EN) */
+    (function() {
+      const btn = document.getElementById('lang-btn');
+      if (!btn) return;
+      let lang = 'ja';
+      btn.addEventListener('click', () => {
+        lang = lang === 'ja' ? 'en' : 'ja';
+        btn.textContent = lang === 'ja' ? 'EN' : 'JA';
+        document.body.classList.toggle('lang-en', lang === 'en');
+      });
+    })();
+
+    /* Formspree 送信フィードバック */
+    (function() {
+      const form = document.getElementById('contact-form');
+      if (!form) return;
+      form.addEventListener('submit', e => {
+        const btn = form.querySelector('.form-submit');
+        if (btn) { btn.textContent = '送信中 / Sending…'; btn.disabled = true; }
+      });
+    })();
+  </script>
+</body>
+</html>
