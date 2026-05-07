@@ -1324,6 +1324,14 @@ footer {
   .nav-links   { display: none; }
   .nav-social  { display: none; }
 
+  /* セクション：上揃えにしてコンテンツが中央に浮くのを防ぐ */
+  .section     { align-items: flex-start; padding-top: 6rem; padding-bottom: 4rem; }
+  .section-inner { padding: 2rem 1.4rem; }
+  #hero .section { padding-top: 7rem; }
+
+  /* フォーム：名前・メールを縦積みに */
+  .form-row    { grid-template-columns: 1fr; }
+
   /* ジャーニーラベル（fixed 位置がコンテンツと重なる） */
   .journey-label { display: none; }
 
