@@ -48,20 +48,33 @@ window.addEventListener('scroll', () => {
     renderer.setSize(cvW(), window.innerHeight);
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x060c22, 0.012);
 
     const camera = new THREE.PerspectiveCamera(65, cvW() / window.innerHeight, 0.1, 250);
 
-    /* ---- ライティング ---- */
-    scene.add(new THREE.AmbientLight(0xffeedd, 0.6));
+    /* ---- 時間帯判定 ---- */
+    const tod = document.documentElement.getAttribute('data-tod') || 'night';
 
-    const sun = new THREE.DirectionalLight(0xffd090, 1.5);
+    /* ---- 時間帯別パラメータ ---- */
+    const todCfg = {
+      night:  { fog: 0x060c22, fogD: 0.012, amb: 0xffeedd, ambI: 0.6,  sun: 0xffd090, sunI: 1.5,  hsky: 0x88c8f0, hgnd: 0x2d7030, hI: 0.5,  city: 0xff8820, cityI: 2.5 },
+      dawn:   { fog: 0x2a0d22, fogD: 0.010, amb: 0xffccaa, ambI: 0.7,  sun: 0xff9040, sunI: 1.2,  hsky: 0xffb080, hgnd: 0x3a2020, hI: 0.6,  city: 0xff6633, cityI: 1.5 },
+      day:    { fog: 0x6090c0, fogD: 0.009, amb: 0xffffff, ambI: 1.0,  sun: 0xfff5e0, sunI: 2.2,  hsky: 0x99ccff, hgnd: 0x4a7a30, hI: 0.8,  city: 0xffa040, cityI: 0.6 },
+      sunset: { fog: 0x301020, fogD: 0.011, amb: 0xffddaa, ambI: 0.75, sun: 0xff6020, sunI: 1.8,  hsky: 0xff8844, hgnd: 0x2a1818, hI: 0.65, city: 0xff5500, cityI: 2.0 },
+    };
+    const cfg = todCfg[tod];
+
+    scene.fog = new THREE.FogExp2(cfg.fog, cfg.fogD);
+
+    /* ---- ライティング ---- */
+    scene.add(new THREE.AmbientLight(cfg.amb, cfg.ambI));
+
+    const sun = new THREE.DirectionalLight(cfg.sun, cfg.sunI);
     sun.position.set(8, 20, 14);
     scene.add(sun);
 
-    scene.add(new THREE.HemisphereLight(0x88c8f0, 0x2d7030, 0.5));
+    scene.add(new THREE.HemisphereLight(cfg.hsky, cfg.hgnd, cfg.hI));
 
-    const cityLight = new THREE.PointLight(0xff8820, 2.5, 70);
+    const cityLight = new THREE.PointLight(cfg.city, cfg.cityI, 70);
     cityLight.position.set(0, 12, -55);
     scene.add(cityLight);
 
@@ -71,9 +84,12 @@ window.addEventListener('scroll', () => {
     }
 
     /* ================================================================
-       星空 + 天の川
+       星空 + 天の川（夜・朝焼け・夕日に表示、昼は非表示）
     ================================================================ */
     (function() {
+      const showStars = (tod !== 'day');
+      const starOpacity = tod === 'night' ? 0.92 : 0.45; // 朝夕は薄め
+
       // ── 一般星（白〜薄青）──
       const N = 1800;
       const sPos = new Float32Array(N * 3);
@@ -81,7 +97,7 @@ window.addEventListener('scroll', () => {
 
       for (let i = 0; i < N; i++) {
         const theta = Math.random() * Math.PI * 2;
-        const phi   = Math.acos(Math.random() * 1.7 - 0.7); // 上半球寄り
+        const phi   = Math.acos(Math.random() * 1.7 - 0.7);
         const r     = 115 + Math.random() * 22;
         sPos[i*3]   = r * Math.sin(phi) * Math.cos(theta);
         sPos[i*3+1] = Math.max(-18, r * Math.cos(phi));
@@ -97,8 +113,10 @@ window.addEventListener('scroll', () => {
       const sGeo = new THREE.BufferGeometry();
       sGeo.setAttribute('position', new THREE.Float32BufferAttribute(sPos, 3));
       sGeo.setAttribute('color',    new THREE.Float32BufferAttribute(sCol, 3));
-      const sMat = new THREE.PointsMaterial({ size: 0.42, vertexColors: true, transparent: true, opacity: 0.92, sizeAttenuation: true, fog: false });
-      scene.add(new THREE.Points(sGeo, sMat));
+      const sMat = new THREE.PointsMaterial({ size: 0.42, vertexColors: true, transparent: true, opacity: starOpacity, sizeAttenuation: true, fog: false });
+      const starField = new THREE.Points(sGeo, sMat);
+      starField.visible = showStars;
+      scene.add(starField);
 
       // ── 天の川（斜めのシアン帯）──
       const MW = 900;
@@ -106,7 +124,6 @@ window.addEventListener('scroll', () => {
       const mCol = new Float32Array(MW * 3);
 
       for (let i = 0; i < MW; i++) {
-        // 斜めの帯（左下→右上）
         const t      = (i / MW) * Math.PI * 1.5 - 0.2;
         const spread = (Math.random() - 0.5) * 0.44;
         const r      = 116 + Math.random() * 10;
@@ -120,7 +137,6 @@ window.addEventListener('scroll', () => {
         mPos[i*3+1] = Math.max(-10, (ay / len) * r);
         mPos[i*3+2] = (az / len) * r;
 
-        // 白〜シアン〜青のグラデーション
         const cx = Math.random();
         mCol[i*3]   = 0.10 + cx * 0.35;
         mCol[i*3+1] = 0.45 + cx * 0.40;
@@ -130,15 +146,20 @@ window.addEventListener('scroll', () => {
       const mGeo = new THREE.BufferGeometry();
       mGeo.setAttribute('position', new THREE.Float32BufferAttribute(mPos, 3));
       mGeo.setAttribute('color',    new THREE.Float32BufferAttribute(mCol, 3));
-      const mMat = new THREE.PointsMaterial({ size: 0.52, vertexColors: true, transparent: true, opacity: 0.72, sizeAttenuation: true, fog: false });
-      scene.add(new THREE.Points(mGeo, mMat));
+      const mMat = new THREE.PointsMaterial({ size: 0.52, vertexColors: true, transparent: true, opacity: tod === 'night' ? 0.72 : 0.30, sizeAttenuation: true, fog: false });
+      const milkyWay = new THREE.Points(mGeo, mMat);
+      milkyWay.visible = (tod === 'night');
+      scene.add(milkyWay);
 
       // ── 輝星（特に明るい星、数個）──
+      const brightStars = [];
       [[30,80,-20],[-45,95,15],[60,70,-30],[-20,110,5],[15,65,-50]].forEach(([x,y,z]) => {
         const sg = new THREE.Mesh(new THREE.SphereGeometry(0.28, 6, 4),
           new THREE.MeshBasicMaterial({ color: 0xddeeff, fog: false }));
         sg.position.set(x, y, z);
+        sg.visible = showStars;
         scene.add(sg);
+        brightStars.push(sg);
       });
     })();
 
