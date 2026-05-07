@@ -266,6 +266,28 @@ a { color: inherit; text-decoration: none; }
 .nav-links a:hover { color: var(--accent); }
 .nav-links a:hover::after { width: 100%; }
 
+/* ナビ SNS ショートカット */
+.nav-social {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.nav-social a {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 3px;
+  padding: 0.22rem 0.5rem;
+  transition: color 0.2s, border-color 0.2s;
+  text-decoration: none;
+}
+
+.nav-social a:hover { color: var(--accent); border-color: var(--accent); }
+
 /* ===== Split layout ===== */
 
 /* 左3/4の暗い背景 */
@@ -579,6 +601,75 @@ main {
 .meta-value {
   font-size: 0.9rem;
   color: var(--fg);
+}
+
+/* 受注受付中バッジ */
+.availability-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.2rem;
+  padding: 0.55rem 0.85rem;
+  background: rgba(74, 240, 192, 0.07);
+  border: 1px solid rgba(74, 240, 192, 0.28);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+
+.avail-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  animation: pulse-avail 2s ease-in-out infinite;
+}
+
+@keyframes pulse-avail {
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(74,240,192,0.4); }
+  50%       { opacity: 0.7; transform: scale(0.85); box-shadow: 0 0 0 4px rgba(74,240,192,0); }
+}
+
+/* 実績カウンター */
+.about-stats {
+  display: flex;
+  align-items: center;
+  margin-top: 2.5rem;
+  padding: 1.6rem 0 0.8rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+  padding: 0 0.8rem;
+}
+
+.stat-num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.stat-plus { font-size: 1.1rem; opacity: 0.7; }
+
+.stat-label {
+  display: block;
+  font-size: 0.62rem;
+  color: var(--muted);
+  margin-top: 0.4rem;
+  letter-spacing: 0.08em;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 38px;
+  background: rgba(255,255,255,0.1);
+  flex-shrink: 0;
 }
 
 /* ===== Skills ===== */
@@ -1205,14 +1296,19 @@ footer {
   /* モバイル: フルスクリーンに戻す */
   body::before { width: 100%; }
   body::after  { display: none; }
-  #bg-canvas   { width: 100%; left: 0; right: 0; opacity: 0.35; }
+  #sky-bg      { width: 100%; left: 0; right: 0; }
+  #bg-canvas   { width: 100%; left: 0; right: 0; opacity: 0.28; }
   main         { width: 100%; }
   .section     { padding: 5rem 1.5rem; }
-  #nav         { padding: 1rem 1.5rem; }
-  .nav-links   { gap: 1.2rem; }
-  .nav-links a { font-size: 0.65rem; }
+  #nav         { padding: 1rem 1.2rem; gap: 0.6rem; }
+  .nav-links   { gap: 1.0rem; }
+  .nav-links a { font-size: 0.6rem; }
+  .nav-social  { display: none; }
   .about-grid  { grid-template-columns: 1fr; gap: 2rem; }
   .about-meta  { border-left: none; border-top: 1px solid rgba(255,255,255,0.1); padding-left: 0; padding-top: 2rem; }
+  .about-stats { flex-wrap: wrap; gap: 0.5rem 0; }
+  .about-stats .stat-divider { display: none; }
+  .about-stats .stat-item { flex: 0 0 50%; padding: 0.6rem 0; }
   .contact-links { gap: 1rem; }
   .scroll-hint { left: 1.5rem; }
 }
