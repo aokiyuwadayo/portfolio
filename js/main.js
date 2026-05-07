@@ -36,6 +36,56 @@ window.addEventListener('scroll', () => {
   document.getElementById('progress-bar').style.width = (scrolled * 100) + '%';
 });
 
+/* ===== 時間帯グラデーション（smoothstep クロスフェード） ===== */
+(function initSkyLayers() {
+  function jstHour() {
+    const now = new Date();
+    const jst = new Date(now.getTime() + (9 * 60 + now.getTimezoneOffset()) * 60000);
+    return jst.getHours() + jst.getMinutes() / 60;
+  }
+
+  function smoothstep(a, b, x) {
+    if (x <= a) return 0;
+    if (x >= b) return 1;
+    const t = (x - a) / (b - a);
+    return t * t * (3 - 2 * t);
+  }
+
+  function calcOpacities(h) {
+    const T = 0.5; // ±30分の遷移ゾーン
+    const dawnW   = smoothstep(5 - T, 5 + T, h)  * (1 - smoothstep(8  - T, 8  + T, h));
+    const dayW    = smoothstep(8 - T, 8 + T, h)  * (1 - smoothstep(16 - T, 16 + T, h));
+    const sunsetW = smoothstep(16 - T, 16 + T, h) * (1 - smoothstep(19 - T, 19 + T, h));
+    const nightW  = Math.max(0, 1 - dawnW - dayW - sunsetW);
+    return { night: nightW, dawn: dawnW, day: dayW, sunset: sunsetW };
+  }
+
+  function applyOpacities(op, withTransition) {
+    ['night', 'dawn', 'day', 'sunset'].forEach(id => {
+      const el = document.getElementById('sky-' + id);
+      if (!el) return;
+      if (!withTransition) el.style.transition = 'none';
+      el.style.opacity = op[id];
+      if (!withTransition) el.offsetHeight; // reflow
+    });
+    if (!withTransition) {
+      // 次のフレームでトランジション有効化
+      requestAnimationFrame(() => {
+        ['night', 'dawn', 'day', 'sunset'].forEach(id => {
+          const el = document.getElementById('sky-' + id);
+          if (el) el.style.transition = '';
+        });
+      });
+    }
+  }
+
+  // 初回は即時セット
+  applyOpacities(calcOpacities(jstHour()), false);
+
+  // 60秒ごとにゆっくり遷移
+  setInterval(() => applyOpacities(calcOpacities(jstHour()), true), 60000);
+})();
+
 /* ===== Low-Poly 3D Landscape ===== */
 (function initThree() {
   if (typeof THREE === 'undefined') return;
