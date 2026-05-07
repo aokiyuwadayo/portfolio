@@ -1307,22 +1307,43 @@ footer {
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
-  /* モバイル: フルスクリーンに戻す */
+  /* カーソル非表示（タッチデバイス） */
+  body         { cursor: auto; }
+  .cursor, .cursor-dot { display: none; }
+
+  /* レイアウト */
   body::before { width: 100%; }
   body::after  { display: none; }
   #sky-bg      { width: 100%; left: 0; right: 0; }
-  #bg-canvas   { width: 100%; left: 0; right: 0; opacity: 0.28; }
+  #bg-canvas   { width: 100%; left: 0; right: 0; opacity: 0.22; }
   main         { width: 100%; }
-  .section     { padding: 5rem 1.5rem; }
-  #nav         { padding: 1rem 1.2rem; gap: 0.6rem; }
-  .nav-links   { gap: 1.0rem; }
-  .nav-links a { font-size: 0.6rem; }
+  .section     { padding: 5rem 1.2rem; }
+
+  /* ナビ：リンクを隠して logo + EN だけ残す */
+  #nav         { padding: 1rem 1.4rem; }
+  .nav-links   { display: none; }
   .nav-social  { display: none; }
+
+  /* ジャーニーラベル（fixed 位置がコンテンツと重なる） */
+  .journey-label { display: none; }
+
+  /* About */
   .about-grid  { grid-template-columns: 1fr; gap: 2rem; }
   .about-meta  { border-left: none; border-top: 1px solid rgba(255,255,255,0.1); padding-left: 0; padding-top: 2rem; }
   .about-stats { flex-wrap: wrap; gap: 0.5rem 0; }
   .about-stats .stat-divider { display: none; }
   .about-stats .stat-item { flex: 0 0 50%; padding: 0.6rem 0; }
-  .contact-links { gap: 1rem; }
+
+  /* Contact カード：2列グリッドでコンパクトに */
+  .contact-links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  .contact-card {
+    padding: 1.2rem 0.8rem;
+    min-width: unset;
+  }
+
   .scroll-hint { left: 1.5rem; }
 }
