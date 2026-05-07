@@ -12,7 +12,7 @@
   --font-jp: 'Noto Sans JP', sans-serif;
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100%; }
 
 body {
   background: var(--bg);
@@ -1158,7 +1158,7 @@ body.lang-en details > p > .en-only { display: block; }
 }
 .form-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
 }
 .form-group {
@@ -1312,12 +1312,13 @@ footer {
   .cursor, .cursor-dot { display: none; }
 
   /* レイアウト */
-  body::before { width: 100%; }
-  body::after  { display: none; }
-  #sky-bg      { width: 100%; left: 0; right: 0; }
-  #bg-canvas   { width: 100%; left: 0; right: 0; opacity: 0.22; }
-  main         { width: 100%; }
-  .section     { padding: 5rem 1.2rem; }
+  body::before { width: 100% !important; }
+  body::after  { display: none !important; }
+  #sky-bg      { width: 100% !important; left: 0; right: 0; }
+  #bg-canvas   { width: 100% !important; left: 0; right: 0; opacity: 0.22; }
+  main         { width: 100% !important; max-width: 100%; }
+  .section     { width: 100%; padding: 5rem 1.2rem; box-sizing: border-box; }
+  .section-inner { width: 100%; max-width: 100%; box-sizing: border-box; }
 
   /* ナビ：リンクを隠して logo + EN だけ残す */
   #nav         { padding: 1rem 1.4rem; }
