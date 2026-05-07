@@ -16,6 +16,17 @@
   <meta name="twitter:title" content="AOKI YUWA | Portfolio" />
   <meta name="twitter:description" content="対馬から福岡へ。Web制作・AI・起業に挑戦する大学生のポートフォリオ。" />
   <meta name="twitter:image" content="https://aokiyuwadayo.github.io/portfolio/assets/profile.jpg" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="assets/profile.jpg" />
+  <link rel="apple-touch-icon" href="assets/profile.jpg" />
+  <!-- Google Analytics — G-XXXXXXXXXX を実際の Measurement ID に差し替える -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script> -->
   <link rel="stylesheet" href="css/style.css" />
   <script>
     (function(){
@@ -598,6 +609,7 @@
         lang = lang === 'ja' ? 'en' : 'ja';
         btn.textContent = lang === 'ja' ? 'EN' : 'JA';
         document.body.classList.toggle('lang-en', lang === 'en');
+        document.documentElement.lang = lang;
       });
     })();
 
