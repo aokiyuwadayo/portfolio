@@ -94,6 +94,7 @@
       <a href="https://github.com/aokiyuwadayo" target="_blank" rel="noopener" aria-label="GitHub">GH</a>
       <a href="https://www.instagram.com/ayuwa0605" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
     </div>
+    <button id="terminal-btn" class="terminal-nav-btn" aria-label="ターミナルを開く" title="Terminal (`)">&#62;_</button>
     <button id="lang-btn" class="lang-btn" aria-label="Switch language">EN</button>
   </nav>
 
@@ -233,6 +234,13 @@
             <span class="stat-label ja-only">起業部</span>
             <span class="stat-label en-only">Club</span>
           </div>
+        </div>
+
+        <!-- GitHub Activity -->
+        <div class="github-activity">
+          <p class="github-activity-label">GitHub Activity — @aokiyuwadayo</p>
+          <img src="https://ghchart.rshah.org/4af0c0/aokiyuwadayo"
+               alt="GitHub contribution graph" class="github-chart" loading="lazy" />
         </div>
       </div>
     </section>
@@ -651,6 +659,169 @@
         if (btn) { btn.textContent = '送信中 / Sending…'; btn.disabled = true; }
       });
     })();
+  </script>
+
+  <!-- ターミナル UI -->
+  <div id="terminal-overlay" class="terminal-overlay" hidden aria-modal="true" role="dialog">
+    <div class="terminal-window">
+      <div class="terminal-titlebar">
+        <span class="t-dot t-red"></span>
+        <span class="t-dot t-yellow"></span>
+        <span class="t-dot t-green"></span>
+        <span class="t-title">yuwa@portfolio ~ bash</span>
+        <button class="t-close" id="t-close-btn" aria-label="閉じる">✕</button>
+      </div>
+      <div class="terminal-output" id="t-output">
+        <div class="t-line t-hi">AOKI YUWA portfolio terminal v1.0</div>
+        <div class="t-line">Type <span class="t-cmd">help</span> to see available commands.</div>
+        <div class="t-line t-muted">Press Escape or click ✕ to close.</div>
+        <div class="t-line"></div>
+      </div>
+      <div class="terminal-inputrow">
+        <span class="t-prompt">yuwa@portfolio:~$&nbsp;</span>
+        <input id="t-input" class="t-input" type="text" autocomplete="off" spellcheck="false" />
+      </div>
+    </div>
+  </div>
+
+  <script>
+  /* ===== Terminal UI ===== */
+  (function() {
+    const overlay  = document.getElementById('terminal-overlay');
+    const output   = document.getElementById('t-output');
+    const input    = document.getElementById('t-input');
+    const openBtn  = document.getElementById('terminal-btn');
+    const closeBtn = document.getElementById('t-close-btn');
+
+    const COMMANDS = {
+      help: () => [
+        '利用可能なコマンド:',
+        '  whoami       — 自己紹介',
+        '  skills       — スキル一覧',
+        '  works        — 制作物',
+        '  dream        — 夢「まなびより」',
+        '  contact      — 連絡先',
+        '  open <name>  — セクションへ移動',
+        '                 (about / skills / works / dream / contact)',
+        '  clear        — 画面クリア',
+        '  exit         — 閉じる',
+      ],
+      whoami: () => [
+        '青木 優和 / AOKI YUWA',
+        '─────────────────────────────',
+        '所属    : 福岡工業大学',
+        '          情報工学部 情報マネジメント学科',
+        '出身    : 長崎県対馬市',
+        '卒業予定: 2029年',
+        '役割    : Web制作 / AI活用 / 起業部 部長',
+        '現在    : インターン（AI自動化・システム開発）',
+        'ステータス: ✓ 受注受付中',
+      ],
+      skills: () => [
+        'スキル一覧:',
+        '  HTML / CSS    ████████░░  70%',
+        '  JavaScript    ██████░░░░  55%',
+        '  Python        █████░░░░░  50%',
+        '  React         ████░░░░░░  40%',
+        '  Claude / AI   ██████░░░░  65%',
+        '  GitHub        ██████░░░░  60%',
+      ],
+      works: () => [
+        '制作物 (5件+):',
+        '  [Web]    AokiYuwa Portfolio',
+        '           → https://aokiyuwadayo.github.io/portfolio/',
+        '  [Print]  福工大起業部 チラシ',
+        '  [Print]  Startup Weekend 新宮町 vol.3',
+        '  [Video]  BreakThrough — イベント映像',
+        '  [Club]   福工大 起業部 (部長)',
+      ],
+      dream: () => [
+        '夢 — まなびより',
+        '─────────────────────────────',
+        '本に囲まれながら、エンジニアが集まり、',
+        'コーヒーを片手にアイデアを交わす場所。',
+        '知識・技術・人がつながる',
+        '新しいコミュニティ空間を作りたい。',
+      ],
+      contact: () => [
+        '連絡先:',
+        '  GitHub   : github.com/aokiyuwadayo',
+        '  Instagram: @ayuwa0605',
+        '  Note     : note.com/ayuwa0605',
+        '  Qiita    : qiita.com/AokiYuwa',
+        '',
+        'フォームはこちら → open contact',
+      ],
+    };
+
+    function print(lines, isCmd) {
+      if (isCmd) {
+        const d = document.createElement('div');
+        d.className = 't-line t-entered';
+        d.textContent = 'yuwa@portfolio:~$ ' + isCmd;
+        output.appendChild(d);
+      }
+      (Array.isArray(lines) ? lines : [lines]).forEach(text => {
+        const d = document.createElement('div');
+        d.className = 't-line';
+        d.textContent = text;
+        output.appendChild(d);
+      });
+      const blank = document.createElement('div');
+      blank.className = 't-line';
+      output.appendChild(blank);
+      output.scrollTop = output.scrollHeight;
+    }
+
+    function run(raw) {
+      const parts = raw.trim().split(/\s+/);
+      const cmd   = parts[0].toLowerCase();
+      const arg   = parts[1] ? parts[1].toLowerCase() : '';
+
+      if (cmd === '' ) return;
+      if (cmd === 'exit') { close(); return; }
+      if (cmd === 'clear') { output.innerHTML = ''; return; }
+      if (cmd === 'open') {
+        const targets = { about:'#about', skills:'#skills', works:'#works', dream:'#dream', contact:'#contact' };
+        if (targets[arg]) {
+          close();
+          document.querySelector(targets[arg]).scrollIntoView({ behavior: 'smooth' });
+          return;
+        }
+        print(['使い方: open <about|skills|works|dream|contact>'], raw);
+        return;
+      }
+      if (COMMANDS[cmd]) { print(COMMANDS[cmd](), raw); return; }
+      print(['コマンドが見つかりません: ' + cmd + '  ("help" で一覧表示)'], raw);
+    }
+
+    function open() {
+      overlay.hidden = false;
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => input.focus(), 50);
+    }
+    function close() {
+      overlay.hidden = true;
+      document.body.style.overflow = '';
+    }
+
+    openBtn .addEventListener('click', () => overlay.hidden ? open() : close());
+    closeBtn.addEventListener('click', close);
+    overlay .addEventListener('click', e => { if (e.target === overlay) close(); });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === '`' || e.key === 'Dead') { e.preventDefault(); overlay.hidden ? open() : close(); }
+      if (e.key === 'Escape' && !overlay.hidden) close();
+    });
+
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        const val = input.value;
+        input.value = '';
+        run(val);
+      }
+    });
+  })();
   </script>
 </body>
 </html>

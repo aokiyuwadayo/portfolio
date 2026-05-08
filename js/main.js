@@ -1204,6 +1204,16 @@ window.addEventListener('scroll', () => {
 
     camera.position.set(0, CAM_Y_START, CAM_Z_START);
 
+    /* ---- マウス追従パラックス（デスクトップのみ） ---- */
+    let mouseParX = 0, mouseParY = 0;
+    let targetParX = 0, targetParY = 0;
+    if (!('ontouchstart' in window)) {
+      window.addEventListener('mousemove', (e) => {
+        targetParX = (e.clientX / window.innerWidth  - 0.5) * 2;
+        targetParY = (e.clientY / window.innerHeight - 0.5) * 2;
+      });
+    }
+
     /* ================================================================
        アニメーションループ
     ================================================================ */
@@ -1236,10 +1246,12 @@ window.addEventListener('scroll', () => {
         window._ferry.rotation.z = Math.sin(time * 0.55) * 0.015;
       }
 
-      // カメラ追従
+      // カメラ追従 + マウスパラックス
+      mouseParX += (targetParX - mouseParX) * 0.04;
+      mouseParY += (targetParY - mouseParY) * 0.04;
       camera.position.z += (targetCamZ - camera.position.z) * 0.05;
       camera.position.y += (targetCamY - camera.position.y) * 0.05;
-      camera.lookAt(0, 0, camera.position.z - 22);
+      camera.lookAt(mouseParX * 4, mouseParY * -2, camera.position.z - 22);
 
       renderer.render(scene, camera);
     }
