@@ -9,7 +9,7 @@ document.addEventListener('mousemove', (e) => {
   cursorDot.style.top = e.clientY + 'px';
 });
 
-document.querySelectorAll('a, button, .skill-card, .work-card, .contact-card').forEach(el => {
+document.querySelectorAll('a, button, .skill-badge, .work-card, .contact-card').forEach(el => {
   el.addEventListener('mouseenter', () => cursor.style.transform = 'translate(-50%,-50%) scale(1.8)');
   el.addEventListener('mouseleave', () => cursor.style.transform = 'translate(-50%,-50%) scale(1)');
 });
@@ -1286,10 +1286,8 @@ ScrollTrigger.create({
     setTimeout(() => p.classList.add('active'), i * 600))
 });
 
-ScrollTrigger.create({
-  trigger: '#skills', start: 'top 60%',
-  onEnter: () => document.querySelectorAll('.skill-fill').forEach(b => b.style.width = b.dataset.width + '%')
-});
+gsap.fromTo('.skill-badge', { opacity: 0, y: 16 },
+  { opacity: 1, y: 0, stagger: 0.06, duration: 0.5, scrollTrigger: { trigger: '#skills', start: 'top 60%' } });
 
 gsap.fromTo('.about-text p', { opacity: 0, x: -30 },
   { opacity: 1, x: 0, stagger: 0.15, duration: 0.8, scrollTrigger: { trigger: '#about', start: 'top 60%' } });
